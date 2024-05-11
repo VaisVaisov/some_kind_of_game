@@ -52,21 +52,17 @@ def main():
         for joystick in joysticks.values():
             axis_x_square = float(joystick.get_axis(0))
             axis_y_square = float(joystick.get_axis(1))
-            old_square_x, old_square_y = square.x, square.y
             if abs(axis_x_square) >= 0.01 and abs(axis_y_square) >= 0.01:
                 square.x, square.y = (square.collision_detection(width_screen, height_screen)[0] + axis_x_square,
                                       square.collision_detection(width_screen, height_screen)[1] + axis_y_square)
-            else:
-                square.x, square.y = old_square_x, old_square_y
 
             axis_x_alisa = float(joystick.get_axis(2))
             axis_y_alisa = float(joystick.get_axis(3))
-            old_alisa_x, old_alisa_y = alisa.x, alisa.y
             if abs(axis_x_alisa) >= 0.01 and abs(axis_y_alisa) >= 0.01:
                 alisa.x, alisa.y = (alisa.collision_detection(width_screen, height_screen)[0] + axis_x_alisa,
                                     alisa.collision_detection(width_screen, height_screen)[1] + axis_y_alisa)
-            else:
-                alisa.x, alisa.y = old_alisa_x, old_alisa_y
+
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
