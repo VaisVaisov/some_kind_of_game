@@ -74,11 +74,6 @@ def main():
         screen.fill(white)
         screen.blit(square.image, (square.x, square.y, square.width, square.height))
         screen.blit(alisa.image, (alisa.x, alisa.y, alisa.width, alisa.height))
-        for event in pygame.event.get():
-            if event.type == pygame.JOYDEVICEADDED:
-                for joystick_index in range(pygame.joystick.get_count()):
-                    joysticks[pygame.joystick.Joystick(joystick_index).get_instance_id()] \
-                        = pygame.joystick.Joystick(joystick_index)
         if not square.collision_with_screen() or not alisa.collision_with_screen:
             for joystick in joysticks.values():
                 axis_x_square = float(joystick.get_axis(0))
@@ -92,6 +87,7 @@ def main():
                 if joystick.get_button(5):
                     pygame.quit()
             for event in pygame.event.get():
+                print(event)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_DOWN:
                         alisa.move_by_keyboard(step, 'down')
@@ -131,6 +127,10 @@ def main():
                         square.move_by_keyboard(step, 'left')
                     if event.key == pygame.K_d:
                         square.move_by_keyboard(step, 'right')
+                if event.type == pygame.JOYDEVICEADDED:
+                    for joystick_index in range(pygame.joystick.get_count()):
+                        joysticks[pygame.joystick.Joystick(joystick_index).get_instance_id()] \
+                            = pygame.joystick.Joystick(joystick_index)
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
