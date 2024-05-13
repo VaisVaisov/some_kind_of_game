@@ -61,7 +61,7 @@ def main():
     square = Solid(0, 0, 'test_sprite.png')
     alisa = Solid(width_screen - pygame.image.load('Alisa.png').get_width(),
                   height_screen - pygame.image.load('Alisa.png').get_height(), 'Alisa.png')
-    step = 5
+    step = 10
     joysticks = {}
     for joystick_index in range(pygame.joystick.get_count()):
         joysticks[pygame.joystick.Joystick(joystick_index).get_instance_id()] \
