@@ -1,5 +1,7 @@
 import pygame
 
+# https://www.geeksforgeeks.org/collision-detection-in-pygame/ почитать
+
 pygame.init()
 
 width_screen = 1920
