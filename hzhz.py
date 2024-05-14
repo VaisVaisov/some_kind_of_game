@@ -1,6 +1,5 @@
 import pygame
 
-# https://www.geeksforgeeks.org/collision-detection-in-pygame/ почитать
 
 pygame.init()
 
@@ -59,6 +58,7 @@ class Solid(object):
             self.y += step_y
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 
+
 def main():
     square = Solid(0, 0, 'test_sprite.png')
     alisa = Solid(width_screen - pygame.image.load('Alisa.png').get_width(),
@@ -89,7 +89,6 @@ def main():
                 if joystick.get_button(5):
                     pygame.quit()
             for event in pygame.event.get():
-                print(event)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_DOWN:
                         alisa.move_by_keyboard(step, 'down')
