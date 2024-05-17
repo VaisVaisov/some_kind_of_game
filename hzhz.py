@@ -77,6 +77,9 @@ def main():
         screen.blit(square.image, (square.x, square.y, square.width, square.height))
         screen.blit(alisa.image, (alisa.x, alisa.y, alisa.width, alisa.height))
         if not square.collision_with_screen() or not alisa.collision_with_screen:
+            if pygame.Rect.colliderect(square.hitbox, alisa.hitbox):
+                square.x -= 1
+                alisa.x += 1
             for joystick in joysticks.values():
                 axis_x_square = float(joystick.get_axis(0))
                 axis_y_square = float(joystick.get_axis(1))
