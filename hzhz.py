@@ -14,7 +14,7 @@ blue = (0, 0, 255)
 
 
 class Solid(object):
-    def __init__(self, x, y, filename):
+    def __init__(self, x, y, filename, direction=''):
         self.filename = filename
         self.image = pygame.image.load(filename)
         self.width = self.image.get_width()
@@ -22,6 +22,7 @@ class Solid(object):
         self.x = x
         self.y = y
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.direction = direction
 
     def collision_with_screen(self):
         if self.x <= -1:
@@ -39,9 +40,9 @@ class Solid(object):
         else:
             return False
 
-    def move_by_keyboard(self, step, direction):
+    def move_by_keyboard(self, step):
         if not self.collision_with_screen():
-            match direction:
+            match self.direction:
                 case 'left':
                     self.x -= step
                 case 'right':
@@ -57,6 +58,7 @@ class Solid(object):
             self.x += step_x
             self.y += step_y
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+
 
 
 def main():
@@ -78,8 +80,19 @@ def main():
         screen.blit(alisa.image, (alisa.x, alisa.y, alisa.width, alisa.height))
         if not square.collision_with_screen() or not alisa.collision_with_screen:
             if pygame.Rect.colliderect(square.hitbox, alisa.hitbox):
-                square.x -= 1
-                alisa.x += 1
+                match square.direction:
+                    case 'left':
+                        square.x -= 5
+                        alisa.x += 5
+                    case 'right':
+                        square.x += 5
+                        alisa.x -= 5
+                    case 'up':
+                        square.y -= 5
+                        alisa.y += 5
+                    case 'down':
+                        square.y += 5
+                        alisa.y -= 5
             for joystick in joysticks.values():
                 axis_x_square = float(joystick.get_axis(0))
                 axis_y_square = float(joystick.get_axis(1))
@@ -94,43 +107,61 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_DOWN:
-                        alisa.move_by_keyboard(step, 'down')
+                        alisa.move_by_keyboard(step)
+                        alisa.direction = 'down'
                     if event.key == pygame.K_UP:
-                        alisa.move_by_keyboard(step, 'up')
+                        alisa.move_by_keyboard(step)
+                        alisa.direction = 'up'
                     if event.key == pygame.K_LEFT:
-                        alisa.move_by_keyboard(step, 'left')
+                        alisa.move_by_keyboard(step)
+                        alisa.direction = 'left'
                     if event.key == pygame.K_RIGHT:
-                        alisa.move_by_keyboard(step, 'right')
+                        alisa.move_by_keyboard(step)
+                        alisa.direction = 'right'
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_DOWN:
-                        alisa.move_by_keyboard(step, 'down')
-                    if event.key == pygame.K_UP:
-                        alisa.move_by_keyboard(step, 'up')
-                    if event.key == pygame.K_LEFT:
-                        alisa.move_by_keyboard(step, 'left')
-                    if event.key == pygame.K_RIGHT:
-                        alisa.move_by_keyboard(step, 'right')
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_DOWN:
+                            alisa.move_by_keyboard(step)
+                            alisa.direction = 'down'
+                        if event.key == pygame.K_UP:
+                            alisa.move_by_keyboard(step)
+                            alisa.direction = 'up'
+                        if event.key == pygame.K_LEFT:
+                            alisa.move_by_keyboard(step)
+                            alisa.direction = 'left'
+                        if event.key == pygame.K_RIGHT:
+                            alisa.move_by_keyboard(step)
+                            alisa.direction = 'right'
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:
-                        square.move_by_keyboard(step, 'down')
-                    if event.key == pygame.K_w:
-                        square.move_by_keyboard(step, 'up')
-                    if event.key == pygame.K_a:
-                        square.move_by_keyboard(step, 'left')
-                    if event.key == pygame.K_d:
-                        square.move_by_keyboard(step, 'right')
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_s:
+                            square.move_by_keyboard(step)
+                            square.direction = 'down'
+                        if event.key == pygame.K_w:
+                            square.move_by_keyboard(step)
+                            square.direction = 'up'
+                        if event.key == pygame.K_a:
+                            square.move_by_keyboard(step)
+                            square.direction = 'left'
+                        if event.key == pygame.K_d:
+                            square.move_by_keyboard(step)
+                            square.direction = 'right'
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_s:
-                        square.move_by_keyboard(step, 'down')
+                        square.move_by_keyboard(step)
+                        square.direction = 'down'
                     if event.key == pygame.K_w:
-                        square.move_by_keyboard(step, 'up')
+                        square.move_by_keyboard(step)
+                        square.direction = 'up'
                     if event.key == pygame.K_a:
-                        square.move_by_keyboard(step, 'left')
+                        square.move_by_keyboard(step)
+                        square.direction = 'left'
                     if event.key == pygame.K_d:
-                        square.move_by_keyboard(step, 'right')
+                        square.move_by_keyboard(step)
+                        square.direction = 'right'
                 if event.type == pygame.JOYDEVICEADDED:
                     for joystick_index in range(pygame.joystick.get_count()):
                         joysticks[pygame.joystick.Joystick(joystick_index).get_instance_id()] \
