@@ -70,7 +70,19 @@ class Solid(object):
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
-
+def collision_detection(hitbox_1, hitbox_2, direction):
+    collision = pygame.Rect.colliderect(hitbox_1, hitbox_2)
+    if collision:
+        match direction:
+            case 'down':
+                hitbox_1.bottom = hitbox_2.top
+            case 'up':
+                hitbox_1.top = hitbox_2.bottom
+            case 'right':
+                hitbox_1.right = hitbox_2.left
+            case 'left':
+                hitbox_1.left = hitbox_2.right
+    return hitbox_1, hitbox_2
 
 
 def main():
@@ -90,17 +102,7 @@ def main():
         screen.fill(white)
         screen.blit(square.image, square.hitbox)
         screen.blit(alisa.image, alisa.hitbox)
-        collision = pygame.Rect.colliderect(square.hitbox, alisa.hitbox)
-        if collision:
-            match square.direction:
-                case 'down':
-                    square.hitbox.bottom = alisa.hitbox.top
-                case 'up':
-                    square.hitbox.top = alisa.hitbox.bottom
-                case 'right':
-                    square.hitbox.right = alisa.hitbox.left
-                case 'left':
-                    square.hitbox.left = alisa.hitbox.right
+        collision_detection(square.hitbox, alisa.hitbox, square.direction)
         for joystick in joysticks.values():
             axis_x_square = float(joystick.get_axis(0))
             axis_y_square = float(joystick.get_axis(1))
