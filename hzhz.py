@@ -2,8 +2,9 @@ import pygame
 
 pygame.init()
 
-width_screen = 1920
-height_screen = 1080
+screen = pygame.display.Info()
+width_screen = screen.current_w
+height_screen = screen.current_h
 
 black = (0, 0, 0)
 white = (255, 255, 255)
